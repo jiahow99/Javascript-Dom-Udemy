@@ -137,3 +137,58 @@ const images = document.querySelectorAll('img[data-src]');
 const imagePreloadObserver = new IntersectionObserver(imgPreload, imgOption);
 
 images.forEach( img => imagePreloadObserver.observe(img) );
+
+
+///////////////////////////////////////
+// Slider
+const slides = document.querySelectorAll('.slide');
+const nextButton = document.querySelector('.slider__btn--right');
+const prevButton = document.querySelector('.slider__btn--left');
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+// Set positions for each slide
+slides.forEach( (slide,index) => {
+  const translateX = "translateX("+ 100*index + "%)"; 
+  slide.style.transform = translateX;
+});
+
+// goToSlide()
+const goToSlide = function(slide){
+  slides.forEach( (s,index) => {
+    const translateX = "translateX("+ 100*(index - slide) + "%)"; 
+    s.style.transform = translateX;
+  });
+}
+
+goToSlide(0);
+
+// nextSlide()
+const nextSlide = function(){
+  if(curSlide === maxSlide-1){
+    curSlide = 0;
+  }else{
+    curSlide++;
+  }
+
+  goToSlide(curSlide);
+};
+
+nextButton.addEventListener('click',nextSlide);
+
+// prevSlide()
+const prevSlide = function(){
+  if(curSlide === 0){
+    curSlide = maxSlide-1;
+  }else{
+    curSlide--;
+  }
+
+  goToSlide(curSlide);
+};
+
+prevButton.addEventListener('click', prevSlide);
+
+
+
